@@ -4,6 +4,8 @@ import Header from './components/Header'
 
 function App() {
 
+  const [search, setSearch] = useState("");
+
   return (
     <>
     <main className='bg-[#101a23] h-screen'>
@@ -30,7 +32,8 @@ function App() {
                   <input
                     placeholder="Search For Events"
                     className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-[#223649] focus:border-none h-full placeholder:text-[#90adcb] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                    value=""
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                   />
                 </div>
               </label>

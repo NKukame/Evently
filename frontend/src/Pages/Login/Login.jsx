@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import Header from "../../components/Header";
 
 function Login() {
@@ -10,24 +11,54 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const navigate = useNavigate();
 
-  /**
-   * Handles the submission of the login/register form.
-   * If the user is logging in, logs a message to the console and sets isLoading to false.
-   * If the user is registering, checks if the passwords match and if they do,
-   * sends a POST request to the register endpoint. If the response is ok,
-   * sets the alert message to "User registered successfully!" and sets isLogin to true
-   * after a 2 second delay. If the response is not ok, sets the alert message to
-   * the error message from the response or "Registration failed". If there is a network
-   * error, sets the alert message to "Network error". Finally, sets isLoading to false.
-   */
+/**
+ * Handles form submission. If `isLogin` is true, it attempts to log in by sending a POST request to the server.
+ * If the request is successful, it sets the token and user name in local storage and navigates to the home page.
+ * If the request fails, it sets an alert message and shows the alert.
+ * If `isLogin` is false, it attempts to register a new user by sending a POST request to the server.
+ * If the request is successful, it sets an alert message and shows the alert, then sets `isLogin` to true and hides the alert after a short delay.
+ * If the request fails, it sets an alert message and shows the alert.
+ * Finally, it sets `isLoading` to false.
+ */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     
     if (isLogin) {
-      console.log("Login not implemented yet");
-      setIsLoading(false);
+      try {
+        const response = await fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password
+          }),
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('userName', data.user.name);
+          setAlertMessage("Login successful!");
+          setShowAlert(true);
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          setAlertMessage(data.message || "Login failed");
+          setShowAlert(true);
+        }
+      } catch (error) {
+        setAlertMessage("Network error");
+        setShowAlert(true);
+      } finally {
+        setIsLoading(false);
+      }
     } else {
       if (password !== confirmPassword) {
         setAlertMessage("Passwords don't match");
@@ -155,9 +186,9 @@ function Login() {
             {/* Button */}
             {isLoading ? (
               <div className="flex flex-row gap-2 items-center justify-center px-4 py-3">
-                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
-                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
-                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
+                <div className="w-4 h-4 rounded-full bg-[#3d99f5] animate-bounce"></div>
+                <div className="w-4 h-4 rounded-full bg-[#3d99f5] animate-bounce [animation-delay:-.3s]"></div>
+                <div className="w-4 h-4 rounded-full bg-[#3d99f5] animate-bounce [animation-delay:-.5s]"></div>
               </div>
             ) : (
               <div className="flex px-4 py-3">

@@ -1,6 +1,35 @@
 import { Link } from "react-router";
+import { useState, useEffect } from "react";
 
+/**
+ * Header component of the application.
+ *
+ * It renders a header with a logo and navigation links.
+ * If the user is logged in, it renders a logout button.
+ *
+ * @returns {JSX.Element} Header component.
+ */
 function Header() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const userName = localStorage.getItem("userName");
+    if (userName) {
+      setUser({ name: userName });
+    }
+  }, []);
+
+  const getInitials = (name) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    setUser(null);
+    window.location.href = '/';
+  };
+
   return (
     <>
       <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#223649] px-10 py-3">
@@ -30,13 +59,27 @@ function Header() {
             </div>
           </div>
           <div className="flex flex-1 justify-end gap-8">
-            <Link to={"/login"}>
+            {user ? (
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-[#3d99f5] flex items-center justify-center text-white font-bold text-sm">
+                  {getInitials(user.name)}
+                </div>
                 <button
-                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#223649] hover:bg-slate-600 text-white text-sm font-bold leading-normal tracking-[0.015em]"
+                  onClick={handleLogout}
+                  className="text-white text-sm font-medium leading-normal hover:text-[#90adcb] cursor-pointer"
                 >
-                <span className="truncate">Login</span>
+                  Logout
                 </button>
-            </Link>
+              </div>
+            ) : (
+              <Link to={"/login"}>
+                <button
+                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#223649] hover:bg-slate-600 text-white text-sm font-bold leading-normal tracking-[0.015em]"
+                >
+                  <span className="truncate">Login</span>
+                </button>
+              </Link>
+            )}
           </div>
         </header>
     </>

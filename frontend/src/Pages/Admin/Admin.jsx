@@ -8,6 +8,7 @@ function Admin() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [location, setLocation] = useState("");
+  const [capacity, setCapacity] = useState("");
 
   return (
     <>
@@ -101,6 +102,20 @@ function Admin() {
                 class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-[#223649] focus:border-none h-14 placeholder:text-[#90adcb] p-4 text-base font-normal leading-normal"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
+              />
+            </label>
+          </div>
+
+          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+            <label class="flex flex-col min-w-40 flex-1">
+              <p class="text-white text-base font-medium leading-normal pb-2 justify-center mx-auto">
+                Maximum Capicity
+              </p>
+              <input
+                placeholder="Enter Event Capacity"
+                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-white focus:outline-0 focus:ring-0 border-none bg-[#223649] focus:border-none h-14 placeholder:text-[#90adcb] p-4 text-base font-normal leading-normal"
+                value={capacity}
+                onChange={(e) => setCapacity(e.target.value)}
               />
             </label>
           </div>

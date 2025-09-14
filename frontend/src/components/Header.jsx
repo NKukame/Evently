@@ -1,21 +1,13 @@
 import { Link } from "react-router";
 import { useState, useEffect } from "react";
 
-/**
- * Header component of the application.
- *
- * It renders a header with a logo and navigation links.
- * If the user is logged in, it renders a logout button.
- *
- * @returns {JSX.Element} Header component.
- */
 function Header() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const userName = localStorage.getItem("userName");
-    if (userName) {
-      setUser({ name: userName });
+    const userData = sessionStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
     }
   }, []);
 
@@ -25,7 +17,7 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('userName');
+    sessionStorage.removeItem('user');
     setUser(null);
     window.location.href = '/';
   };
@@ -56,6 +48,9 @@ function Header() {
             <div className="flex items-center gap-9">
               <Link className="text-white text-sm font-medium leading-normal hover:text-[#90adcb]" to={"/"}>Home</Link>
               <Link className="text-white text-sm font-medium leading-normal hover:text-[#90adcb]" href="#">My Bookings</Link>
+              {user && user.isAdmin && (
+                <Link className="text-white text-sm font-medium leading-normal hover:text-[#90adcb]" to={"/admin"}>Admin</Link>
+              )}
             </div>
           </div>
           <div className="flex flex-1 justify-end gap-8">

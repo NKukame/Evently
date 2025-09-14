@@ -13,15 +13,6 @@ function Login() {
   const [alertMessage, setAlertMessage] = useState("");
   const navigate = useNavigate();
 
-/**
- * Handles form submission. If `isLogin` is true, it attempts to log in by sending a POST request to the server.
- * If the request is successful, it sets the token and user name in local storage and navigates to the home page.
- * If the request fails, it sets an alert message and shows the alert.
- * If `isLogin` is false, it attempts to register a new user by sending a POST request to the server.
- * If the request is successful, it sets an alert message and shows the alert, then sets `isLogin` to true and hides the alert after a short delay.
- * If the request fails, it sets an alert message and shows the alert.
- * Finally, it sets `isLoading` to false.
- */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -43,7 +34,7 @@ function Login() {
         
         if (response.ok) {
           localStorage.setItem('token', data.token);
-          localStorage.setItem('userName', data.user.name);
+          sessionStorage.setItem('user', JSON.stringify(data.user));
           setAlertMessage("Login successful!");
           setShowAlert(true);
           setTimeout(() => {
@@ -186,9 +177,9 @@ function Login() {
             {/* Button */}
             {isLoading ? (
               <div className="flex flex-row gap-2 items-center justify-center px-4 py-3">
-                <div className="w-4 h-4 rounded-full bg-[#3d99f5] animate-bounce"></div>
-                <div className="w-4 h-4 rounded-full bg-[#3d99f5] animate-bounce [animation-delay:-.3s]"></div>
-                <div className="w-4 h-4 rounded-full bg-[#3d99f5] animate-bounce [animation-delay:-.5s]"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.3s]"></div>
+                <div className="w-4 h-4 rounded-full bg-blue-700 animate-bounce [animation-delay:-.5s]"></div>
               </div>
             ) : (
               <div className="flex px-4 py-3">

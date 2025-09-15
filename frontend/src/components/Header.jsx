@@ -47,7 +47,7 @@ function Header() {
             </div>
             <div className="flex items-center gap-9">
               <Link className="text-white text-sm font-medium leading-normal hover:text-[#90adcb]" to={"/"}>Home</Link>
-              <Link className="text-white text-sm font-medium leading-normal hover:text-[#90adcb]" href="#">My Bookings</Link>
+              <Link className="text-white text-sm font-medium leading-normal hover:text-[#90adcb]" to="/my-bookings">My Bookings</Link>
               {user && user.isAdmin && (
                 <Link className="text-white text-sm font-medium leading-normal hover:text-[#90adcb]" to={"/admin"}>Admin</Link>
               )}

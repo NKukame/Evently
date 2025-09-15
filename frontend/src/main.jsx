@@ -6,6 +6,7 @@ import App from "./App.jsx";
 import Login from "./Pages/Login/Login.jsx";
 import Admin from "./Pages/Admin/Admin.jsx";
 import EventsDetail from "./Pages/EventDetails/EventsDetails.jsx";
+import MyBookings from "./Pages/MyBookings/MyBookings.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/event/:id" element={<EventsDetail />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
